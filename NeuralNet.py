@@ -4,6 +4,7 @@ import ActivationFunctions
 
 class NeuralNet:
     def __init__(self, inputDims):
+        """initialise the inputs of a neural net """
         self.__inputDims = 0
         self.minibatch_size = None
         self.__layers = []
@@ -32,9 +33,11 @@ class NeuralNet:
 
     @property
     def layers(self):
+    """function to return the number of layers """
         return self.__layers
 
     def add_layer(self, nodes, activationFunction=None):
+    """function to add layers in the neural net """
         if activationFunction is None:
             activationFunction = ActivationFunctions.sigmoid()
         if not isinstance(nodes, int):
@@ -50,6 +53,7 @@ class NeuralNet:
             Layer(activationFunction, nodes, numNodesInPrevLayer))
 
     def forward_prop(self, data):
+    """function to calculate forward propogation """
         if data.shape[0] != self.inputDims:
             raise ValueError("Number of inputs does not match\nExpected {} found {}".format(
                 self.inputDims, data.shape[0]))
@@ -60,6 +64,8 @@ class NeuralNet:
 
 class Layer:
     def __init__(self, actFunc, numNodes, numNodesInPrevLayer):
+    """function to initialise Activation Function, number of Nodes in present layers
+    and number of nodes in previous layers"""
         self.activationFunction = actFunc
         self.__numNodes = numNodes
         self.__numNodesInPrevLayer = numNodesInPrevLayer
@@ -67,6 +73,7 @@ class Layer:
         self.bias = np.random.random((numNodes, 1))*2 - 1
 
     def forward_prop(self, data):
+    """function to calculate forward propogation"""
         if not isinstance(data, np.ndarray):
             raise("Data must be an numpy array")
         self.value = self.weights.dot(data) + self.bias
@@ -92,6 +99,7 @@ class Layer:
 
     @property
     def numNodesInPrevLayer(self):
+    """ function to return number of nodes in previous layers"""
         return self.__numNodesInPrevLayer
 
     # @numNodesInPrevLayer.setter
